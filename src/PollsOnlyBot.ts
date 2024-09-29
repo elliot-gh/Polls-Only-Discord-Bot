@@ -16,7 +16,10 @@ export class PollsOnlyBot extends BaseBotWithConfig {
 
     constructor() {
         super("PollsOnlyBot", import.meta);
-        this.intents = [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessagePolls];
+        this.intents = [GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.GuildMessagePolls,
+            GatewayIntentBits.MessageContent]; // poll will be null otherwise
         this.commands = [];
         const config = this.readYamlConfig<PollsOnlyConfig>("config.yaml");
         this.guildId = config.guildId;
@@ -46,7 +49,7 @@ export class PollsOnlyBot extends BaseBotWithConfig {
             this.logger.info(`Non-poll message from ${message.author.id}`);
             const replyMsg = await message.reply("Please only send polls in this channel.");
             await message.delete();
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await new Promise(resolve => setTimeout(resolve, 3000));
             await replyMsg.delete();
         } catch (error) {
             this.logger.error(`Exception in processMessage(): ${error}`);
