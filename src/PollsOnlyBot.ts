@@ -1,4 +1,4 @@
-import { GatewayIntentBits, Message, SlashCommandBuilder } from "discord.js";
+import { GatewayIntentBits, Message, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { BaseBotWithConfig } from "../../../interfaces/BaseBotWithConfig.js";
 import { EventHandlerDict } from "../../../interfaces/IBot.js";
 import { ShouldIgnoreEvent } from "../../../utils/DiscordUtils.js";
@@ -41,7 +41,7 @@ export class PollsOnlyBot extends BaseBotWithConfig {
             message.guildId !== this.guildId ||
             message.channelId !== this.channelId ||
             message.poll !== null ||
-            message.member?.permissionsIn(message.channel).has("Administrator")) {
+            message.member?.permissionsIn(message.channel).has(PermissionFlagsBits.ManageMessages)) {
             return;
         }
 
